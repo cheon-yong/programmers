@@ -1,16 +1,27 @@
 #include <string>
 #include <vector>
-#include <algorithm>
+#include <map>
 
 using namespace std;
 
-bool solution(vector<string> phone_book) {
-    sort(phone_book.begin(), phone_book.end());
-    for (int i = 0; i < phone_book.size() - 1; i++)
-    {
-        if (phone_book[i] == phone_book[i + 1].substr(0, phone_book[i].size()))
-            return false;
-    }
+int solution(vector<vector<string>> clothes) {
+    int answer = 1;
+    map<string, int> m;
+    for (int i = 0; i < clothes.size(); i++)
+        m[clothes[i][1]] += 1;
     
-    return true;
+    map<string, int>::iterator iter;
+
+    if (m.size() == 1)
+    {
+        for (iter = m.begin(); iter != m.end(); iter++)
+            answer *= iter->second;
+    }
+    else
+    {
+        for (iter = m.begin(); iter != m.end(); iter++)
+            answer *= iter->second + 1;
+        answer--;
+    }
+    return answer;
 }
