@@ -14,7 +14,7 @@ int solution(int bridge_length, int weight, vector<int> truck_weights) {
     {
         answer++;
         int bridgeWeight = 0;
-        for (int i = 0; i < bridge.size(); i++)
+        for (vector<pair<int, int>>::iterator i = bridge.begin(); i < bridge.size(); i++)
         {
             bridge[i].second++;
             if (bridge[i].second > bridge_length)
