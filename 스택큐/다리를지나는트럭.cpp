@@ -1,37 +1,43 @@
 #include <string>
 #include <vector>
 #include <queue>
-#include <iostream>
 
 using namespace std;
 
 int solution(int bridge_length, int weight, vector<int> truck_weights) {
     int answer = 0;
     int next = 0;
-    // 무게 시간
-    vector<pair<int, int>> bridge;
-    while (!bridge.empty() || !truck_weights.empty())
+    int nowWeight = 0;
+    
+    queue<int> bridge;
+    
+    while (1)
     {
-        answer++;
-        int bridgeWeight = 0;
-        for (vector<pair<int, int>>::iterator i = bridge.begin(); i < bridge.size(); i++)
+        if (next == truck_weights.size())
         {
-            bridge[i].second++;
-            if (bridge[i].second > bridge_length)
-            {
-                bridge.erase(bridge.begin() + i);
-                continue;
-            }
-            bridgeWeight += bridge[i].first;
+            answer += bridge_length;
+            break;
         }
-        if (weight > bridgeWeight)
+        
+        answer++;
+        
+        int temp = truck_weights[next];
+        
+        if (bridge.size() == bridge_length)
         {
-            if (weight >= bridgeWeight + truck_weights[next])
-            {
-                bridge.push_back(make_pair(truck_weights[next], 1));
-                truck_weights.erase(truck_weights.begin() + next);
-                next++;
-            }
+            nowWeight -= bridge.front();
+            bridge.pop();
+        }
+        
+        if (nowWeight + temp <= weight)
+        {
+            bridge.push(temp);
+            nowWeight += temp;
+            next++;
+        }
+        else
+        {
+            bridge.push(0);
         }
     }
     return answer;
